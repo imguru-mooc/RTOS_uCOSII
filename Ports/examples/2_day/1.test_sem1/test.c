@@ -76,13 +76,15 @@ void  Task1 (void *pdata)
 
 	//for( i=0; i<50; i++ )
 	//{  
-	OSSemPend (pevent, 0, &err);
+	OSSemPend (pevent, 0, &err); // P 연산
+	printf("Task1 임계영역 진입\n");
 	temp = count;
 	temp = temp + 1;
-	OSTimeDly(200*5);
+	OSTimeDly(200*10);
 	count = temp;
 	printf("TASK1 : count=%d\n", count );
-	OSSemPost( pevent );        
+	printf("Task1 임계영역 탈출\n");
+	OSSemPost( pevent );        // V 연산 
 	//}
 	while(1)
 	{
@@ -99,14 +101,16 @@ void  Task2 (void *pdata)
 
 	//for( i=0; i<50; i++ )
 	//{  
-	OSSemPend(pevent, 200*10,&err); 
+	OSSemPend(pevent, 200*5,&err); 
 	if ( err != OS_TIMEOUT )
 	{
+		printf("Task2 임계영역 진입\n");
 		temp = count;
 		temp = temp + 1;
 		count = temp;
 		OSTimeDly(1);
 		printf("TASK2 : count=%d\n", count );
+		printf("Task2 임계영역 탈출\n");
 		OSSemPost( pevent ); 
 	} else {
 		printf("TASK2 : OS_TIMEOUT\n" );

@@ -93,6 +93,11 @@ void  Task1 (void *pdata)
 	OSSemPend (pevent, 0, &err);
 
 	printf("TASK1 : 임계영역 진입\n" );
+	OSTimeDly(200*3);
+	printf("TASK1 : 임계영역 탈출\n" );
+
+	OSSemPost (pevent);
+
 
 	while(1)
 	{

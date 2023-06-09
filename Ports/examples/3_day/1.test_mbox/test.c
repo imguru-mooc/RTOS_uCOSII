@@ -10,6 +10,14 @@ void  TaskStart(void *data);
 void  Task1 (void *pdata);
 void  Task2 (void *pdata);
 
+typedef struct devinfo
+{
+	int temp;
+	INT32U current; 
+} DEV_INFO;
+
+DEV_INFO dev_info;
+
 int  main(void)
 {
 	OSInit();      
@@ -46,9 +54,13 @@ void  TaskStart (void *pdata)
 	for (;;) {
 		if (PC_GetKey(&key)) 
 		{  
-			if (key == '1')
+			if (key >=  '1' && key <= '9' )
 			{
-				OSMboxPostOpt(pevent,"hello",OS_POST_OPT_BROADCAST);
+				int temp;
+				temp = key - '0';
+				dev_info.temp = temp;
+				dev_info.current = OSTime;
+				OSMboxPostOpt(pevent,&dev_info,OS_POST_OPT_BROADCAST);
 			}
 			if (key == 0x1B) 
 			{   
@@ -63,14 +75,14 @@ void  Task1 (void *pdata)
 {
 	INT8U err;
 	OS_EVENT  *pevent = (OS_EVENT*)pdata;
-	char *msg;
+	DEV_INFO *info;
 
 	//OSTimeDly(200*5);
-	msg = OSMboxPend(pevent, 0, &err);
-	printf("Task1 수신 : %s\n", msg );
-
 	while(1)
 	{
+		info = OSMboxPend(pevent, 0, &err);
+		printf("Task1 수신 : 온도:%d, 시간:%lu\n", info->temp, info->current );
+
 		OSTimeDly(1);
 	}
 }
@@ -78,15 +90,15 @@ void  Task1 (void *pdata)
 void  Task2 (void *pdata)
 {
 	INT8U err;
-	char *msg;
+	DEV_INFO *info;
 	OS_EVENT  *pevent = (OS_EVENT*)pdata;
-
-	//OSTimeDly(200*5);
-	msg = OSMboxPend(pevent, 0, &err);
-	printf("Task2 수신 : %s\n", msg );
 
 	while(1)
 	{
+		//OSTimeDly(200*5);
+		info = OSMboxPend(pevent, 0, &err);
+		printf("Task2 수신 : 온도:%d, 시간:%lu\n", info->temp, info->current );
+
 		OSTimeDly(1);
 	}
 }

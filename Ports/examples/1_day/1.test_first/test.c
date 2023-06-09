@@ -35,8 +35,8 @@ void  TaskStart (void *pdata)
 		}
 
 		OSTimeDly(OS_TICKS_PER_SEC);   
-		printf("OSCPUUsage %d%%\n", OSCPUUsage );
-		//sprintf(temp, "OSCPUUsage %d%%\n", OSCPUUsage );
-		//PC_DispStr( 3,  3, temp, DISP_FGND_WHITE + DISP_BGND_RED);
+		//printf("OSCPUUsage %d%%\n", OSCPUUsage );
+		sprintf(temp, "OSCPUUsage %d%%\n", OSCPUUsage );
+		PC_DispStr( 3,  3, temp, DISP_FGND_WHITE + DISP_BGND_RED);
 	}
 }

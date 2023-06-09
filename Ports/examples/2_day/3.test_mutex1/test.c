@@ -82,13 +82,13 @@ void  Task1 (void *pdata)
 	INT8U err;
 	OS_EVENT  *pevent = (OS_EVENT*)pdata;
 
-    OSTimeDly(100);
+    OSTimeDly(10);
   
 	OSSemPend (pevent, 0, &err);
 	   
 	printf("TASK1 : 임계영역 진입\n" );
 
-	for(i=0; i<400000000 ; i++ )
+	for(i=0; i<1000000000 ; i++ )
 		 ;
     printf("TASK1 : 임계영역 탈출\n" );
 	OSSemPost (pevent);
@@ -106,11 +106,11 @@ void  Task2 (void *pdata)
 	INT8U err;
     OS_EVENT  *pevent = (OS_EVENT*)pdata;
 
-    OSTimeDly(100);
+    OSTimeDly(20);
 	   
 	printf("TASK2 : 실행\n" );
 
-	for(i=0; i<400000000 ; i++ )
+	for(i=0; i<2000000000 ; i++ )
 		 ;
 	printf("TASK2 : 실행 종료\n" );
 	while(1)
@@ -129,7 +129,7 @@ void  Task3 (void *pdata)
 	OSSemPend (pevent, 0, &err);
 	   
 	printf("TASK3 : 임계영역 진입\n" );
-	for(i=0; i<400000000 ; i++ )
+	for(i=0; i<2000000000 ; i++ )
 		 ;
     printf("TASK3 : 임계영역 탈출\n" );
     OSSemPost (pevent);

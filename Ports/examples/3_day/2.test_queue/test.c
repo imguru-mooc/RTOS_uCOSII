@@ -35,11 +35,11 @@ void  TaskStart (void *pdata)
 {
 	INT16S     key;
 	KEY_EVENT  *temp;
-	KEY_EVENT  *my_queue[100];
+	KEY_EVENT  *my_queue[8];
 	OS_EVENT  *pevent;
 	INT8U err;
 
-	pevent =  OSQCreate ( (void**)my_queue , 100 );
+	pevent =  OSQCreate ( (void**)my_queue , 8 );
 	pmem   = OSMemCreate( my_mem, 100, sizeof(KEY_EVENT), &err );
 
 	OSTaskCreateExt(Task1, (void *)pevent, 
